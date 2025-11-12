@@ -6,11 +6,17 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY packages/ ./packages/
+
+# Copy packages directory if it exists
+COPY packages/ ./packages/ 2>/dev/null || echo "No packages directory found, continuing..."
 
 # Install dependencies with workspaces support
 RUN npm install -g npm@latest && \
-    npm install --legacy-peer-deps --workspaces
+    if [ -d "packages" ]; then \
+      npm install --legacy-peer-deps --workspaces; \
+    else \
+      npm install --legacy-peer-deps; \
+    fi
 
 # Copy the rest of the application
 COPY . .
@@ -22,7 +28,7 @@ EXPOSE 8080
 ENV NODE_ENV=development
 
 # Set the working directory to the main package
-WORKDIR /app/packages/app
+WORKDIR /app
 
 # Start the application
 CMD ["sh", "-c", "npm install -g npm@11.6.2 && npm start"]
