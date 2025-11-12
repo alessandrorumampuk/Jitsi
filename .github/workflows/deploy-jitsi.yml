@@ -20,17 +20,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Install Node.js
-      - name: Set up Node.js
+      # Install Node.js and Yarn
+      - name: Set up Node.js and Yarn
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
+          cache: 'yarn'
 
-      # Install dependencies
+      # Install dependencies using Yarn
       - name: Install dependencies
-        run: npm install
-        working-directory: ./
+        run: |
+          corepack enable
+          yarn set version stable
+          yarn install --immutable
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

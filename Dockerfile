@@ -1,14 +1,20 @@
 # Use Node.js 18 Alpine as the base image
 FROM node:18-alpine
 
+# Enable corepack for Yarn
+RUN corepack enable
+
 # Set the working directory
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json yarn.lock* ./
+
+# Install Yarn
+RUN yarn set version stable
 
 # Install dependencies
-RUN npm install
+RUN yarn install --immutable
 
 # Copy the rest of the application
 COPY . .
@@ -19,5 +25,5 @@ EXPOSE 8080
 # Set environment variables
 ENV NODE_ENV=development
 
-# Install dependencies and start the application
-CMD ["sh", "-c", "npm install && npm start"]
+# Start the application
+CMD ["yarn", "start"]
