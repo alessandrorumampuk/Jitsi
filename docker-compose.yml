@@ -1,17 +1,17 @@
 services:
   jitsi:
-    build: .
+    image: henry768/jitsi:latest_jitsi
     container_name: jitsi
     restart: unless-stopped
     ports:
       - "8080:8080"
     environment:
       - NODE_ENV=development
-    working_dir: /app/packages/app
+    working_dir: /app
     volumes:
       - .:/app
       - /app/node_modules
-    command: sh -c "npm install -g npm@11.6.2 && npm start"
+    command: sh -c "npm install && npm start"
     networks:
       - jitsi-network
 
