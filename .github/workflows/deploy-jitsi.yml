@@ -20,20 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Install Node.js and Yarn
-      - name: Set up Node.js and Yarn
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'yarn'
-
-      # Install dependencies using Yarn
-      - name: Install dependencies
-        run: |
-          corepack enable
-          yarn set version stable
-          yarn install --immutable
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -62,3 +48,5 @@ jobs:
           cache-to: type=registry,ref=henry768/jitsi:buildcache,mode=max
           build-args: |
             ROLLUP_SKIP_NODEJS=true
+            npm_config_platform=linux
+            npm_config_arch=x64

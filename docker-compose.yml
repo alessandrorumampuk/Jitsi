@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: sh -c "yarn install --immutable && yarn start"
+    command: sh -c "npm install && npm start"
     networks:
       - jitsi-network
 
