@@ -7,13 +7,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Copy packages directory if it exists
+# Create packages directory and copy if it exists
 RUN mkdir -p packages
-COPY packages/ ./packages/ 2>/dev/null || true
+COPY --from=0 /app/package*.json ./
+RUN if [ -d "packages" ]; then cp -r packages/ ./ || true; fi
 
 # Install dependencies with workspaces support
 RUN npm install -g npm@latest && \
-    if [ -d "packages" ] && [ "$(ls -A packages)" ]; then \
+    if [ -d "packages" ] && [ "$(ls -A packages 2>/dev/null)" ]; then \
       npm install --legacy-peer-deps --workspaces; \
     else \
       npm install --legacy-peer-deps; \
