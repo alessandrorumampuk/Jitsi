@@ -30,11 +30,11 @@ export const sendTelegramNotification = async ({
 
     // Construct the message
     const message = `
-🎥 *New Meeting Participant*
+*New Meeting Participant*
 
-👤 *User:* ${userName}
-🏢 *Room:* ${roomName || 'Unknown'}
-🕐 *Time:* ${timestamp}
+*User:* ${userName}
+*Room:* ${roomName || 'Unknown'}
+*Time:* ${timestamp}
 
 ✅ User has joined the meeting successfully.
     `.trim();
